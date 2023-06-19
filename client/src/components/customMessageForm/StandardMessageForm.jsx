@@ -1,15 +1,29 @@
 import React, { useState } from 'react'
-import { XMarkIcon } from '@heroicons/react/24/solid' 
+import { PaperAirplaneIcon, PaperClipIcon, XMarkIcon } from '@heroicons/react/24/solid' 
 import Dropzone from 'react-dropzone';
 
 
-const StandardMessageForm = () => {
+const StandardMessageForm = ({props,activeChat}) => {
   const [message,setMessage] = useState("");
   const [attachment,setAttachment] = useState("");
   const [preview,setPreview] = useState("");
 
 
   const handleChange = (e) => setMessage(e.target.value);
+  const handleSubmit = async () => {
+    const date = new Date().toISOString().replace("T"," ").replace("Z",`${Math.floor(Math.random() * 1000)} + 00:00`);
+    const at = attachment ? [{blob:attachment, file:attachment.name}]: [];
+    const form = {
+      attachment : at,
+      created: date,
+      sender_username:props.username,
+      text:message,
+      activeChatId: activeChat.id,
+    }
+    props.onSubmit(form);
+    setMessage("");
+    setAttachment()
+  }
    
   return (
     <div className='message-form-container'>
@@ -40,8 +54,7 @@ const StandardMessageForm = () => {
         </div>
         <div className='message-form-icons'>
          </div>
-
- <Dropzone
+         <Dropzone
             acceptedFiles=".jpg,.jpeg,.png"
             multiple={false}
             noClick={true}
@@ -53,14 +66,25 @@ const StandardMessageForm = () => {
             {({ getRootProps, getInputProps, open }) => (
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
-                {/* <PaperClipIcon
-                  className="message-form-icon-clip"
-                  onClick={open}
-                /> */}
-                <span>I am DROPDOWN</span>
+                {
+                  <PaperClipIcon 
+                      className='message-form-icon-clip'
+                      onClick={open}
+                  />
+                  
+                }
               </div>
             )}
           </Dropzone>
+          <hr className='vertical-line' />
+          <PaperAirplaneIcon  
+              className='message-form-icon-airplane'
+              onClick={()=> {
+                setPreview("");
+                handleSubmit();
+
+              }}
+          />
 
       </div>
  
