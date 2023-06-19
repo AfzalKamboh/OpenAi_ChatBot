@@ -1,1 +1,1 @@
-THIS IS CHATBOT_AI
+Build a chat application with ChatEngine, integrating OpenAI and ChatGPT. Frontend: ChatEngine for chat, Redux Toolkit for state management, Redux Toolkit Query for API calls, Hero icons for icons, and React Router for navigation. Backend: Node.js runtime, Express.js framework, and OpenAI for AI integration. Communicate with ChatGPT within the chat application.
